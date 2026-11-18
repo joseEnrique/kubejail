@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="kubejail logo">
+  <defs>
+    <linearGradient id="shell" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4f8bff"/>
+      <stop offset="1" stop-color="#2456c7"/>
+    </linearGradient>
+    <clipPath id="cell">
+      <polygon points="128,44 193.7,75.6 209.9,146.7 164.4,203.7 91.6,203.7 46.1,146.7 62.3,75.6"/>
+    </clipPath>
+  </defs>
+
+  <!-- outer shell -->
+  <polygon points="128,16 215.6,58.2 237.2,152.9 176.6,228.9 79.4,228.9 18.8,152.9 40.4,58.2"
+           fill="url(#shell)" stroke="url(#shell)" stroke-width="14" stroke-linejoin="round"/>
+
+  <!-- the cell -->
+  <polygon points="128,44 193.7,75.6 209.9,146.7 164.4,203.7 91.6,203.7 46.1,146.7 62.3,75.6"
+           fill="#0e1a33"/>
+
+  <!-- bars -->
+  <g clip-path="url(#cell)" stroke="#e8f0ff" stroke-width="9" stroke-linecap="round">
+    <line x1="76" y1="40" x2="76" y2="210"/>
+    <line x1="102" y1="40" x2="102" y2="210"/>
+    <line x1="128" y1="40" x2="128" y2="210"/>
+    <line x1="154" y1="40" x2="154" y2="210"/>
+    <line x1="180" y1="40" x2="180" y2="210"/>
+  </g>
+
+  <!-- lock plate -->
+  <rect x="96" y="104" width="64" height="52" rx="10" fill="#4f8bff" stroke="#0e1a33" stroke-width="6"/>
+  <circle cx="128" cy="124" r="7" fill="#0e1a33"/>
+  <rect x="124.5" y="126" width="7" height="18" rx="3" fill="#0e1a33"/>
+</svg>
