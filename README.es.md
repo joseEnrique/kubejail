@@ -35,9 +35,18 @@ Unable to connect to the server: dial tcp 10.0.0.12:6443: connect: network is un
 
 ## Instalación
 
-Hay binarios para Linux y macOS en cada
-[versión publicada](https://github.com/joseEnrique/kubejail/releases). O desde
-el código:
+```bash
+curl -fsSL https://raw.githubusercontent.com/joseEnrique/kubejail/main/install.sh | sh
+```
+
+El script detecta Linux o macOS (x86_64 o arm64), descarga el binario de la
+última [versión publicada](https://github.com/joseEnrique/kubejail/releases),
+comprueba su SHA-256 y lo instala en `/usr/local/bin` si se puede escribir, o
+en `~/.local/bin`. `KUBEJAIL_VERSION` (por ejemplo `v0.1.0`) y
+`KUBEJAIL_INSTALL_DIR` cambian esos valores. Los binarios de Linux son
+estáticos.
+
+O desde el código:
 
 ```bash
 cargo install --git https://github.com/joseEnrique/kubejail

@@ -57,9 +57,17 @@ central service: it wraps the `kubectl` you already have.
 
 ## Install
 
-Prebuilt binaries for Linux and macOS are attached to each
-[release](https://github.com/joseEnrique/kubejail/releases). Or build from
-source:
+```bash
+curl -fsSL https://raw.githubusercontent.com/joseEnrique/kubejail/main/install.sh | sh
+```
+
+The script detects Linux or macOS (x86_64 or arm64), downloads the matching
+binary from the latest [release](https://github.com/joseEnrique/kubejail/releases),
+verifies its SHA-256 and installs it in `/usr/local/bin` if writable, otherwise
+in `~/.local/bin`. `KUBEJAIL_VERSION` (for example `v0.1.0`) and
+`KUBEJAIL_INSTALL_DIR` override the defaults. Linux binaries are static.
+
+Or build from source:
 
 ```bash
 cargo install --git https://github.com/joseEnrique/kubejail
