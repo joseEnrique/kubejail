@@ -63,6 +63,7 @@ cat '$SECRET_FILE' >/dev/null 2>&1 && echo home_file=readable || echo home_file=
 touch /tmp/kubejail-selftest-escape 2>/dev/null; echo done > /dev/null
 touch "\$HOME/scratch" 2>/dev/null && echo jail_home=writable || echo jail_home=readonly
 command -v kubectl >/dev/null && echo kubectl=found || echo kubectl=missing
+[ "\$(command -v k)" -ef "\$(command -v kubectl)" ] && echo k=found || echo k=missing
 EOF
 
 OUT=$(XDG_RUNTIME_DIR="$WORK/run" TMPDIR="$WORK/run" HOST_SECRET=leak \
@@ -85,6 +86,7 @@ check "host environment is not inherited" unset "$(value host_env)"
 check "files in the operator's HOME are hidden" hidden "$(value home_file)"
 check "session HOME is writable" writable "$(value jail_home)"
 check "kubectl is available inside" found "$(value kubectl)"
+check "k is a shorthand for kubectl" found "$(value k)"
 # The Linux jail has its own /tmp; on macOS /tmp must be read-only.
 [ -e /tmp/kubejail-selftest-escape ] && { rm -f /tmp/kubejail-selftest-escape; ESC=yes; } || ESC=no
 check "host /tmp is not writable from the jail" no "$ESC"

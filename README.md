@@ -33,14 +33,14 @@ credentials for another cluster does not open another route.
 
 ```console
 $ kubejail enter acme-staging -n payments
-[acme-staging/payments] $ kubectl get pods
+[acme-staging] $ kubectl get pods
 NAME                   READY   STATUS    RESTARTS   AGE
 web-7d4b9c6f5d-x2x9k   1/1     Running   0          3h
 
-[acme-staging/payments] $ kubectl --server https://10.0.0.12:6443 get pods
+[acme-staging] $ kubectl --server https://10.0.0.12:6443 get pods
 Unable to connect to the server: dial tcp 10.0.0.12:6443: connect: network is unreachable
 
-[acme-staging/payments] $ exit
+[acme-staging] $ exit
 ```
 
 ## Why
@@ -93,6 +93,9 @@ kubejail enter <context> [-n <namespace>] [--kubeconfig <path>] [-- <command>...
   `default`). Permissions are still whatever the cluster's RBAC grants.
 - `-- <command>`: run one command in the jail instead of an interactive shell
   and return its exit code.
+- The prompt shows the context only, because that is what is enforced.
+- `k` is available inside as a shorthand for `kubectl`. Your own shell aliases
+  and functions are not carried into the jail.
 - Sessions are independent: open as many as you like, each pinned to its own
   cluster. To work on another cluster, open another session.
 

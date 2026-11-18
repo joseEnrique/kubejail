@@ -121,6 +121,8 @@ pub async fn launch(session: crate::session::Session<'_>) -> Result<i32> {
     if let Some(kubectl) = find_kubectl() {
         std::fs::copy(&kubectl, bin.join("kubectl"))
             .with_context(|| format!("cannot copy {} into the session", kubectl.display()))?;
+        // The usual shorthand; the operator's shell aliases do not exist here.
+        std::os::unix::fs::symlink("kubectl", bin.join("k"))?;
     }
     let profile_path = dir.join("profile.sb");
     write_private(&profile_path, sandbox_profile(&dir, port)?.as_bytes())?;
@@ -141,7 +143,7 @@ pub async fn launch(session: crate::session::Session<'_>) -> Result<i32> {
                 ),
             )
             .env("KUBECONFIG", &kubeconfig_path)
-            .env("PS1", prompt(&resolved.context, &resolved.namespace))
+            .env("PS1", prompt(&resolved.context))
             .env("KUBEJAIL_CONTEXT", &resolved.context)
             .env("KUBEJAIL_NAMESPACE", &resolved.namespace)
             .env("LANG", "en_US.UTF-8")

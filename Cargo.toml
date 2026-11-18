@@ -1,6 +1,6 @@
 [package]
 name = "kubejail"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 description = "A shell that can only reach the API server of one Kubernetes cluster"
 license = "MIT"

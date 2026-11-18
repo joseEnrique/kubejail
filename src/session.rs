@@ -150,21 +150,22 @@ pub fn find_kubectl() -> Option<PathBuf> {
     found
 }
 
-/// `[context/namespace] $ `. The prompt is interpreted by the shell, so
-/// anything that is not a plain name character is replaced, not escaped.
-pub fn prompt(context: &str, namespace: &str) -> String {
-    let safe = |name: &str| -> String {
-        name.chars()
-            .map(|c| {
-                if c.is_ascii_alphanumeric() || "._:@-".contains(c) {
-                    c
-                } else {
-                    '?'
-                }
-            })
-            .collect()
-    };
-    format!("[{}/{}] $ ", safe(context), safe(namespace))
+/// `[context] $ `. Only the cluster is shown because only the cluster is
+/// enforced; the namespace is just kubectl's default. The prompt is
+/// interpreted by the shell, so anything that is not a plain name character
+/// is replaced, not escaped.
+pub fn prompt(context: &str) -> String {
+    let safe: String = context
+        .chars()
+        .map(|c| {
+            if c.is_ascii_alphanumeric() || "._:@-".contains(c) {
+                c
+            } else {
+                '?'
+            }
+        })
+        .collect();
+    format!("[{safe}] $ ")
 }
 
 /// Mark every descriptor >= `first` close-on-exec, so nothing inherited

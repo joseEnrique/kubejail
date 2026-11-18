@@ -87,10 +87,12 @@ pub fn bwrap_args(spec: &JailSpec) -> Vec<OsString> {
     add(&[&"--ro-bind", &spec.self_exe, &JAIL_SELF]);
     if let Some(kubectl) = spec.kubectl {
         add(&[&"--ro-bind", &kubectl, &format!("{JAIL_BIN}/kubectl")]);
+        // The usual shorthand; the operator's shell aliases do not exist here.
+        add(&[&"--symlink", &"kubectl", &format!("{JAIL_BIN}/k")]);
     }
 
     let path = format!("{JAIL_BIN}:/usr/local/bin:/usr/bin:/bin");
-    let prompt = crate::session::prompt(spec.context, spec.namespace);
+    let prompt = crate::session::prompt(spec.context);
     add(&[&"--setenv", &"HOME", &JAIL_HOME]);
     add(&[&"--setenv", &"PATH", &path]);
     add(&[&"--setenv", &"KUBECONFIG", &jail_kubeconfig]);
@@ -246,10 +248,19 @@ mod tests {
     }
 
     #[test]
-    fn prompt_shows_context_and_namespace_without_shell_metacharacters() {
+    fn prompt_shows_the_context_without_shell_metacharacters() {
         let a = args(&[]);
-        assert!(has_seq(&a, &["--setenv", "PS1", "[prod??id?/payments] $ "]));
+        assert!(has_seq(&a, &["--setenv", "PS1", "[prod??id?] $ "]));
         assert_eq!(a.last().unwrap(), "-i");
+    }
+
+    #[test]
+    fn k_is_a_shorthand_for_kubectl() {
+        let a = args(&[]);
+        assert!(has_seq(
+            &a,
+            &["--symlink", "kubectl", "/opt/kubejail/bin/k"]
+        ));
     }
 
     #[test]

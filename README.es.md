@@ -27,10 +27,10 @@ de otro clúster no abre ninguna otra ruta.
 
 ```console
 $ kubejail enter acme-staging -n payments
-[acme-staging/payments] $ kubectl get pods
-[acme-staging/payments] $ kubectl --server https://10.0.0.12:6443 get pods
+[acme-staging] $ kubectl get pods
+[acme-staging] $ kubectl --server https://10.0.0.12:6443 get pods
 Unable to connect to the server: dial tcp 10.0.0.12:6443: connect: network is unreachable
-[acme-staging/payments] $ exit
+[acme-staging] $ exit
 ```
 
 ## Instalación
@@ -72,6 +72,9 @@ kubejail enter <contexto> [-n <namespace>] [--kubeconfig <ruta>] [-- <comando>..
   `default`). Los permisos siguen siendo los del RBAC del clúster.
 - `-- <comando>`: ejecuta un comando en la jaula en vez de la shell interactiva
   y devuelve su código de salida.
+- El prompt muestra solo el contexto, que es lo que se impone.
+- Dentro está `k` como atajo de `kubectl`. Tus alias y funciones de shell no
+  se trasladan a la jaula.
 - Cada sesión es independiente: se pueden tener varias abiertas a la vez, cada
   una fijada a su clúster. Para ir a otro clúster se abre otra sesión.
 
